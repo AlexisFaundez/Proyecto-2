@@ -1,57 +1,49 @@
-const formLista = document.getElementById("formLista")
-const listaObjetos = document.getElementById("listaObjetos")
 
-let arrayObjetos = [];
+let escribirObjeto = document.getElementById("escribirObjeto");
+let addItemBtn = document.getElementById("addItemBtn");
 
 
-const CrearItem = (objeto) => {
-    let item = {
-        objeto: objeto,
-        estado: false
-    }
+addItemBtn.addEventListener("click", (e) => {
 
-    arrayObjetos.push(item);
+    const escribirObjetoValue = escribirObjeto.value;
 
-    return item;
-}
+    if (escribirObjetoValue) {
+        let localObject = localStorage.getItem("localUser")
+        if (localObject == null) {
+            objeto = [];
+        }
+        else {
+            objeto = JSON.parse(localObject)
+        }
 
-const GuardarDB = (objeto) => {
-
-    localStorage.setItem("Lista", JSON.stringify(arrayObjetos))
-}
-
-const CrearLista = () => {
-    listaObjetos.innerHTML = "";
-    arrayObjetos = JSON.parse(localStorage.getItem("Lista"));
-    
-    if(arrayObjetos === null){
-        arrayObjetos = [];
-    }else{
-        arrayObjetos.forEach(element => {
-        listaObjetos.innerHTML += `<div class="alert alert-dark" role="alert">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-cart4" viewBox="0 0 16 16">
-          <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l.5 2H5V5H3.14zM6 5v2h2V5H6zm3 0v2h2V5H9zm3 0v2h1.36l.5-2H12zm1.11 3H12v2h.61l.5-2zM11 8H9v2h2V8zM8 8H6v2h2V8zM5 8H3.89l.5 2H5V8zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"/>
-        </svg>
-        <b> Artículo de compras </b> - Status
-        <span class="float-end">
-          <i class="bi bi-gear"></i>
-          <i class="bi bi-trash"></i>
-        </span>
-      </div>`
+        objeto.push({
+            "objeto": escribirObjetoValue
         });
+        localStorage.setItem("localUser", JSON.stringify(objeto))
+        escribirObjeto.value = '';
     }
+mostrarObjeto();
+})
+
+function mostrarObjeto() {
+    let localObject = localStorage.getItem("localUser")
+    if (localObject == null){
+        objeto = [];
+    } else {
+        localObject = JSON.parse(localObject)
+    }
+    let html = "";
+    let listaObjetos = document.getElementById("listaObjetos");
+    objeto.forEach((item, index) => {
+        html += `<tr>
+        <th scope="row">${index+1}</th>
+
+        <td><b>${item.objeto}</b></td>
+
+        <td><button type="button" onclick="editUser(${index})" class="btn btn-primary float-end"><i class="fa fa-edit"></i>Editar</button></td>
+        
+        <td><button type="button" onclick="deleteUser(${index})" class="btn btn-danger float-end"><i class="fa fa-trash"></i>Eliminar</button></td>
+    </tr>`;
+    });
+    listaObjetos.innerHTML = html;
 }
-
-formLista.addEventListener("submit", (e) => {
-    e.preventDefault();
-    let formLista = document.getElementById("escribirObjeto").value;
-
-    console.log(formLista)
-
-    CrearItem(formLista);
-    GuardarDB();
-
-});
-
-
-document.addEventListener("DOMContentLoaded", CrearLista)
