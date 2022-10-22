@@ -42,8 +42,16 @@ function mostrarObjeto() {
 
         <td><button type="button" onclick="editUser(${index})" class="btn btn-primary float-end"><i class="fa fa-edit"></i>Editar</button></td>
         
-        <td><button type="button" onclick="deleteUser(${index})" class="btn btn-danger float-end"><i class="fa fa-trash"></i>Eliminar</button></td>
+        <td><button type="button" onclick="borrarObjeto(${index})" class="btn btn-danger float-end"><i class="fa fa-trash"></i>Eliminar</button></td>
     </tr>`;
     });
     listaObjetos.innerHTML = html;
+}
+
+function borrarObjeto(index){
+    let localObject = localStorage.getItem("localUser")
+    let userObject = JSON.parse(localObject)
+    userObject.splice(index, 1);
+    localStorage.setItem("localUser", JSON.stringify(userObject));
+    mostrarObjeto()
 }
