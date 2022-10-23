@@ -38,7 +38,7 @@ function mostrarObjeto() {
         <th scope="row">${index + 1}</th>
 
         <td><b>${item.objeto}</b></td>
-        <td><input class="form-check-input" type="checkbox"></td>
+        <td><input class="form-check-input" type="checkbox" id="checkInput"></td>
         <td><button type="button" onclick="editarObjeto(${index})" class="btn btn-primary float-end"><i class="fa fa-edit"></i>Editar</button></td>
         
         <td><button type="button" onclick="borrarObjeto(${index})" class="btn btn-danger float-end"><i class="fa fa-trash"></i>Eliminar</button></td>
@@ -88,3 +88,16 @@ editItemBtn.addEventListener("click", function (e) {
     escribirObjeto.value = '';
     mostrarObjeto();
 })
+
+//color Check
+
+function checkInput(){
+    let checkBtn = document.getElementById('checkInput');
+    if (checkBtn.checked) {
+         checkBtn.parentNode.style.backgroundColor = 'purple';
+    } else {
+         checkBtn.parentNode.style.backgroundColor = 'red';
+    }
+    mostrarObjeto()
+}
+

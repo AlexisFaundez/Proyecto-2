@@ -1,0 +1,10 @@
+body{
+    background-color: rgb(131, 153, 193);
+}
+#tituloPagina{
+    color: red;
+    text-align: center;
+    background-color: blue;
+}
+
+
